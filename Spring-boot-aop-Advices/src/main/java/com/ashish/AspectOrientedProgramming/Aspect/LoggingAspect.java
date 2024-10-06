@@ -73,8 +73,8 @@ public class LoggingAspect {
         System.out.println("Executing @After advice for getAllAccounts()");
     }
 
-    @Around("execution(* com.ashish.AspectOrientedProgramming.Service.TrafficFortuneServiceImpl.getFortune(..))")
-    public Object lofAroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable{
+    //@Around("execution(* com.ashish.AspectOrientedProgramming.Service.TrafficFortuneServiceImpl.getFortune(..))")
+    public Object logAroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable{
         //print out the method we are advising
         String data = joinPoint.getSignature().toString();
         System.out.println("Method: "+data);
@@ -83,6 +83,34 @@ public class LoggingAspect {
 
         //now proceed
         Object result = joinPoint.proceed();
+
+        //get end timestamp
+        long end = System.currentTimeMillis();
+
+        //display duration
+        long duration = end -begin;
+        System.out.println("Duration: "+duration/1000.0+ " Milliseconds");
+
+        return result;
+    }
+
+    @Around("execution(* com.ashish.AspectOrientedProgramming.Service.TrafficFortuneServiceImpl.getFortune(..))")
+    public Object logAroundAdviceWithException(ProceedingJoinPoint joinPoint) throws Throwable{
+        //print out the method we are advising
+        String data = joinPoint.getSignature().toString();
+        System.out.println("Method: "+data);
+        //get begin timestamp
+        long begin = System.currentTimeMillis();
+
+        //now proceed
+        Object result=null;
+
+        try {
+            result = joinPoint.proceed();
+        }catch (Exception e){
+            System.out.println("Exception:"+e.getMessage());
+            System.out.println("Don't worry we have our AOP Rescue helicopter");
+        }
 
         //get end timestamp
         long end = System.currentTimeMillis();

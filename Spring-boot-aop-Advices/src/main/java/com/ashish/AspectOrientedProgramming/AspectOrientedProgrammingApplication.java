@@ -36,7 +36,8 @@ public class AspectOrientedProgrammingApplication {
 
 		System.out.println("Calling getFortune()");
 
-		String data= trafficFortuneService.getFortune();
+		boolean tripWire=true;
+		String data= trafficFortuneService.getFortune(tripWire);
 
 		System.out.println("Data from fortune(): "+data);
 	}
